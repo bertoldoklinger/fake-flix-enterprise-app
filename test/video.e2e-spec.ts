@@ -16,7 +16,6 @@ describe('VideoController (e2e)', () => {
     }).compile();
 
     app = module.createNestApplication();
-
     await app.init();
 
     prismaService = module.get<PrismaService>(PrismaService);
@@ -24,9 +23,7 @@ describe('VideoController (e2e)', () => {
 
   beforeEach(async () => {
     jest
-      .useFakeTimers({
-        advanceTimers: true,
-      })
+      .useFakeTimers({ advanceTimers: true })
       .setSystemTime(new Date('2023-01-01'));
   });
 
@@ -34,10 +31,11 @@ describe('VideoController (e2e)', () => {
     await prismaService.video.deleteMany();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     module.close();
     fs.rmSync('./uploads', { recursive: true, force: true });
   });
+
   describe('/video (POST)', () => {
     it('uploads a video', async () => {
       const video = {
@@ -114,6 +112,39 @@ describe('VideoController (e2e)', () => {
           error: 'Bad Request',
           statusCode: 400,
         });
+    });
+  });
+
+  describe('/stream/:videoId', () => {
+    it('streams a video', async () => {
+      const { body: sampleVideo } = await request(app.getHttpServer())
+        .post('/video')
+        .attach('video', './test/fixtures/sample.mp4')
+        .attach('thumbnail', './test/fixtures/sample.jpg')
+        .field('title', 'Test Video')
+        .field('description', 'This is a test video')
+        .expect(HttpStatus.CREATED);
+
+      const fileSize = 1430145;
+      const range = `bytes=0-${fileSize - 1}`;
+
+      const response = await request(app.getHttpServer())
+        .get(`/stream/${sampleVideo.id}`)
+        .set('Range', range)
+        .expect(HttpStatus.PARTIAL_CONTENT);
+
+      expect(response.headers['content-range']).toBe(
+        `bytes 0-${fileSize - 1}/${fileSize}`,
+      );
+      expect(response.headers['accept-ranges']).toBe('bytes');
+      expect(response.headers['content-length']).toBe(String(fileSize));
+      expect(response.headers['content-type']).toBe('video/mp4');
+    });
+
+    it('returns 404 if the video is not found', async () => {
+      await request(app.getHttpServer())
+        .get('/stream/45705b56-a47f-4869-b736-8f6626c940f8')
+        .expect(HttpStatus.NOT_FOUND);
     });
   });
 });
