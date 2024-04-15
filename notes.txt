@@ -1,0 +1,4 @@
+Notas de aprendizado
+- É interessante sempre criar os ids na entidade, assim como createdat e updated at, não delegar isso ao prisma
+- Sempre que for configurar o prisma, no package.json adicionar o path do prisma para reconhecimento
+- Relative paths tem que ser adicionados SEMPRE no tsconfig.json e na configuração do jest
