@@ -2,3 +2,7 @@ Notas de aprendizado
 - É interessante sempre criar os ids na entidade, assim como createdat e updated at, não delegar isso ao prisma
 - Sempre que for configurar o prisma, no package.json adicionar o path do prisma para reconhecimento
 - Relative paths tem que ser adicionados SEMPRE no tsconfig.json e na configuração do jest
+- DAO(Data access object) é uma camada que fala diretamente com banco de dados
+- A diferença de um Repository para um DAO, é que um repositório lida com entidades, inclusive um repositório pode chamar um DAO, DAO lida com objetos
+para persistir no banco e remapear eles para objetos
+- DAO serve para persistir estruturas no banco, não entidade
