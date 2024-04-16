@@ -6,3 +6,8 @@ Notas de aprendizado
 - A diferença de um Repository para um DAO, é que um repositório lida com entidades, inclusive um repositório pode chamar um DAO, DAO lida com objetos
 para persistir no banco e remapear eles para objetos
 - DAO serve para persistir estruturas no banco, não entidade
+- Em DTOS, poucas pessoas fazem validação da saída, ou seja, se tu tem algum tipo que muda no banco de dados, mesmo que a pessoa valide a entrada, irá devolver uma response com dados diferentes, necessita ser validada a entrada e saida com DTOs
+- Devemos validar as bordas da aplicação com:
+  Entrada => DTOs de Request com validação
+  Saída => DTOs de Response com Interceptors
+- Exceptions no core da aplicação, não devem ter statusCode, apenas message, com erros personalizados para cada erro, pois no rest, nós tempos statusCode, mas no graphql, enviamos uma string no erro, então uma boa prática é mapear o statusCode do erro no try catch do controller lá na camada rest
