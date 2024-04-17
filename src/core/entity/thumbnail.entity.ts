@@ -38,12 +38,24 @@ export class ThumbnailEntity extends BaseEntity {
     });
   }
 
-  serialize(): Record<string, unknown> {
+  serialize() {
     return {
       id: this.id,
       url: this.url,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
+  }
+
+  getUrl(): string {
+    return this.url;
+  }
+
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  getUpdatedAt(): Date {
+    return this.updatedAt;
   }
 }

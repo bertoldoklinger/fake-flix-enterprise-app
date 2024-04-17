@@ -8,6 +8,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
 
   async onModuleDestroy() {
-    await this.$disconnect;
+    this.$disconnect;
   }
 }

@@ -53,7 +53,7 @@ export class VideoEntity extends BaseEntity {
     return MAX_THUMBNAIL_SIZE;
   }
 
-  serialize(): Record<string, unknown> {
+  serialize() {
     return {
       id: this.id,
       url: this.url,
@@ -62,5 +62,17 @@ export class VideoEntity extends BaseEntity {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
+  }
+
+  getUrl(): string {
+    return this.url;
+  }
+
+  getSizeInKb(): number {
+    return this.sizeInKb;
+  }
+
+  getDuration(): number {
+    return this.duration;
   }
 }
