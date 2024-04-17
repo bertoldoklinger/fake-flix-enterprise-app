@@ -17,7 +17,6 @@ export class ContentRepository {
       if (!movie) {
         throw new Error('Movie must be provided');
       }
-
       const video = movie.getVideo();
 
       await this.model.create({
@@ -43,7 +42,7 @@ export class ContentRepository {
       });
       return content;
     } catch (error) {
-      throw new Error(`Error while saving content: ${error}`);
+      this.handleAndThrowError(error);
     }
   }
 
@@ -54,7 +53,7 @@ export class ContentRepository {
     return 'An unexpected error occurred.';
   }
 
-  protected handleAndThrowError(error: unknown): string {
+  protected handleAndThrowError(error: unknown): never {
     const errorMessage = this.extractErrorMessage(error);
     if (error instanceof Prisma.PrismaClientValidationError) {
       throw new Error(error.message);
