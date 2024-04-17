@@ -80,6 +80,14 @@ export class ContentRepository {
     }
   }
 
+  async clear(): Promise<{ count: number }> {
+    try {
+      return await this.model.deleteMany();
+    } catch (error) {
+      this.handleAndThrowError(error);
+    }
+  }
+
   private mapToEntity<
     T extends Prisma.ContentGetPayload<{
       include: typeof contentInclude;
