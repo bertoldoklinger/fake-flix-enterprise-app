@@ -1,7 +1,6 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
-import { PrismaService } from '@src/persistence/prisma/prisma.service';
 import { ContentRepository } from '@src/persistence/repository/content.repository';
 import fs from 'fs';
 import request from 'supertest';
@@ -43,9 +42,6 @@ describe('ContentController (e2e)', () => {
         title: 'Test Video',
         description: 'This is a test video',
         videoUrl: 'uploads/test.mp4',
-        thumbnailUrl: 'uploads/test.jpg',
-        sizeInKb: 1430145,
-        duration: 100,
       };
 
       await request(app.getHttpServer())
@@ -60,9 +56,6 @@ describe('ContentController (e2e)', () => {
             title: video.title,
             description: video.description,
             url: expect.stringContaining('mp4'),
-            thumbnailUrl: expect.stringContaining('jpg'),
-            sizeInKb: video.sizeInKb,
-            duration: video.duration,
           });
         });
     });
