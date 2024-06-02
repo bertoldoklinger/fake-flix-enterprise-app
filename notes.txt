@@ -11,3 +11,6 @@ para persistir no banco e remapear eles para objetos
   Entrada => DTOs de Request com validação
   Saída => DTOs de Response com Interceptors
 - Exceptions no core da aplicação, não devem ter statusCode, apenas message, com erros personalizados para cada erro, pois no rest, nós tempos statusCode, mas no graphql, enviamos uma string no erro, então uma boa prática é mapear o statusCode do erro no try catch do controller lá na camada rest
+
+- Para adotar diretrizes de arquitetura evolutiva, devemos tentar automatizar o maximo possivel de coisas e reutilizar o maximo possivel de coisas de infraestrutura
+- O módulo config do nest consegue criar variaveis de ambiente composable, tipo a DATABASE_URL usando interpolacao
