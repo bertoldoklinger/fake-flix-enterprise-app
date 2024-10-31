@@ -2,13 +2,17 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
 import { ContentRepository } from '@src/persistence/repository/content.repository';
+import { MovieRepository } from '@src/persistence/repository/movie.repository';
+import { VideoRepository } from '@src/persistence/repository/video.repository';
 import fs from 'fs';
 import request from 'supertest';
 
-describe('ContentController (e2e)', () => {
+describe('VideoUploadController (e2e)', () => {
   let module: TestingModule;
   let app: INestApplication;
+  let videoRepository: VideoRepository;
   let contentRepository: ContentRepository;
+  let movieRepository: MovieRepository;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -18,6 +22,8 @@ describe('ContentController (e2e)', () => {
     app = module.createNestApplication();
     await app.init();
 
+    videoRepository = module.get<VideoRepository>(VideoRepository);
+    movieRepository = module.get<MovieRepository>(MovieRepository);
     contentRepository = module.get<ContentRepository>(ContentRepository);
   });
 
@@ -28,6 +34,8 @@ describe('ContentController (e2e)', () => {
   });
 
   afterEach(async () => {
+    await videoRepository.deleteAll();
+    await movieRepository.deleteAll();
     await contentRepository.deleteAll();
   });
 
@@ -42,6 +50,9 @@ describe('ContentController (e2e)', () => {
         title: 'Test Video',
         description: 'This is a test video',
         videoUrl: 'uploads/test.mp4',
+        thumbnailUrl: 'uploads/test.jpg',
+        sizeInKb: 1430145,
+        duration: 100,
       };
 
       await request(app.getHttpServer())

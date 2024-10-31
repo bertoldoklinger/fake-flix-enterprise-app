@@ -11,16 +11,16 @@ import {
 } from '@nestjs/common';
 
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { ContentManagementService } from '@src/core/service/content-management.service';
 import { randomUUID } from 'crypto';
+import type { Request } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import type { Request } from 'express';
-import { ContentManagementService } from '@src/core/service/content-management.service';
-import { RestResponseInterceptor } from '../interceptor/rest-response.interceptor';
 import { CreateVideoResponseDto } from '../dto/response/create-video-response.dto';
+import { RestResponseInterceptor } from '../interceptor/rest-response.interceptor';
 
 @Controller('content')
-export class ContentController {
+export class VideoUploadController {
   constructor(
     private readonly contentManagementService: ContentManagementService,
   ) {}
@@ -78,7 +78,24 @@ export class ContentController {
       );
     }
 
-    const createdContent = await this.contentManagementService.createContent({
+    const MAX_FILE_SIZE = 1024 * 1024 * 1024; // 1 gigabyte
+    const MAX_THUMBNAIL_SIZE = 1024 * 1024 * 10; // 10 megabytes
+
+    if (videoFile.size > MAX_FILE_SIZE) {
+      throw new BadRequestException('File size exceeds the limit.');
+    }
+
+    if (thumbnailFile.size > MAX_THUMBNAIL_SIZE) {
+      throw new BadRequestException('Thumbnail size exceeds the limit');
+    }
+
+    if (!videoFile || !thumbnailFile) {
+      throw new BadRequestException(
+        'Both video and thumbnail files are required.',
+      );
+    }
+
+    const createdMovie = await this.contentManagementService.createMovie({
       title: contentData.title,
       description: contentData.description,
       url: videoFile.path,
@@ -86,19 +103,16 @@ export class ContentController {
       sizeInKb: videoFile.size,
     });
 
-    const video = createdContent.getMedia()?.getVideo();
-
-    if (!video) {
-      throw new BadRequestException('Video must be present');
-    }
-
     return {
-      id: createdContent.getId(),
-      title: createdContent.getTitle(),
-      description: createdContent.getDescription(),
-      url: video.getUrl(),
-      createdAt: createdContent.getCreatedAt(),
-      updatedAt: createdContent.getUpdatedAt(),
+      id: createdMovie.id,
+      title: createdMovie.title,
+      description: createdMovie.description,
+      url: createdMovie.movie.video.url,
+      thumbnailUrl: createdMovie.movie.thumbnail.url,
+      sizeInKb: createdMovie.movie.video.sizeInKb,
+      duration: createdMovie.movie.video.duration,
+      createdAt: createdMovie.createdAt,
+      updatedAt: createdMovie.updatedAt,
     };
   }
 }

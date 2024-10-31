@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { VideoNotFoundException } from '@src/core/exception/video-not-found.exception';
 import { MediaPlayerService } from '@src/core/service/media-player.service';
+import type { Request, Response } from 'express';
 import { createReadStream, statSync } from 'fs';
 import path from 'path';
-import type { Request, Response } from 'express';
 
 @Controller('stream')
 export class MediaPlayerController {
