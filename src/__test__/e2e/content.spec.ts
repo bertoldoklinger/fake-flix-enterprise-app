@@ -28,7 +28,7 @@ describe('ContentController (e2e)', () => {
   });
 
   afterEach(async () => {
-    await contentRepository.clear();
+    await contentRepository.deleteAll();
   });
 
   afterAll(async () => {

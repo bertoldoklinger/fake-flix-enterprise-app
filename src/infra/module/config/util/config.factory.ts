@@ -9,10 +9,10 @@ export const factory = (): Config => {
     database: {
       host: process.env.DATABASE_HOST,
       database: process.env.DATABASE_NAME,
-      port: process.env.DATABASE_PORT,
       password: process.env.DATABASE_PASSWORD,
-      username: process.env.DATABASE_USERNAME,
+      port: process.env.DATABASE_PORT,
       url: process.env.DATABASE_URL,
+      username: process.env.DATABASE_USERNAME,
     },
   });
 
