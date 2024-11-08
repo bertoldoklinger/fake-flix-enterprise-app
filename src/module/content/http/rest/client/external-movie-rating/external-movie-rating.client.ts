@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@sharedModules/config/service/config.service';
 import { HttpClient } from '@src/module/content/infra/http/client/http.client';
-import { ConfigService } from '@src/module/content/infra/module/config/service/config.service';
 
 interface ApiResponse<T extends Record<string, any>> {
   results: Array<T>;
@@ -52,7 +52,7 @@ export class ExternalMovieClient {
         Authorization: `Bearer ${movieDbApiToken}`,
       },
     };
-    
+
     return this.httpClient.get<ApiResponse<T>>(url, options);
   }
 }

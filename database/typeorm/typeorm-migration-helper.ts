@@ -1,6 +1,6 @@
 import { PersistenceModule } from '@contentModule/persistence/persistence.module';
 import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@src/module/content/infra/module/config/service/config.service';
+import { ConfigService } from '@sharedModules/config/service/config.service';
 import { TypeOrmMigrationService } from '@src/module/content/infra/module/typeorm/service/typeorm-migration.service';
 
 import { DataSourceOptions } from 'typeorm';

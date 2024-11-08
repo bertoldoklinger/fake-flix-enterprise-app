@@ -1,10 +1,10 @@
 /* eslint-disable no-restricted-imports */
 import { DynamicModule } from '@nestjs/common';
 import {
-    ConfigModule as NestConfigModule,
-    ConfigModuleOptions as NestConfigModuleOptions,
+  ConfigModule as NestConfigModule,
+  ConfigModuleOptions as NestConfigModuleOptions,
 } from '@nestjs/config';
-import { factory } from '@src/module/content/infra/module/config/util/config.factory';
+import { factory } from '@sharedModules/config/util/config.factory';
 import { ConfigService } from './service/config.service';
 
 export class ConfigModule {
