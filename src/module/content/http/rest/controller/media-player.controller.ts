@@ -1,11 +1,11 @@
 import {
-    Controller,
-    Get,
-    Header,
-    HttpStatus,
-    Param,
-    Req,
-    Res,
+  Controller,
+  Get,
+  Header,
+  HttpStatus,
+  Param,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { VideoNotFoundException } from '@src/module/content/core/exception/video-not-found.exception';
 import { MediaPlayerService } from '@src/module/content/core/service/media-player.service';

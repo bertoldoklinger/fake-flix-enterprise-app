@@ -1,3 +1,3 @@
 import { DomainException } from '@sharedLibs/core/exception/domain.exception';
 
-export class VideoNotFoundException extends DomainException {}
+export class UserUnauthorizedException extends DomainException {}
