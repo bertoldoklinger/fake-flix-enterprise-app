@@ -1,6 +1,6 @@
 import {
-    configSchema,
-    environmentSchema,
+  configSchema,
+  environmentSchema,
 } from '@sharedModules/config/util/config.schema';
 import { z } from 'zod';
 

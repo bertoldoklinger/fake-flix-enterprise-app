@@ -5,7 +5,7 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
 import fs from 'fs';
-import nock from 'nock';
+import nock, { cleanAll } from 'nock';
 import request from 'supertest';
 
 describe('VideoUploadController (e2e)', () => {
@@ -38,7 +38,7 @@ describe('VideoUploadController (e2e)', () => {
     await videoRepository.deleteAll();
     await movieRepository.deleteAll();
     await contentRepository.deleteAll();
-    nock.cleanAll();
+    cleanAll();
   });
 
   afterAll(async () => {

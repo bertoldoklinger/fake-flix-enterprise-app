@@ -6,7 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '@src/app.module';
 import { ContentManagementService } from '@src/module/content/core/service/content-management.service';
 import fs from 'fs';
-import nock from 'nock';
+import nock, { cleanAll } from 'nock';
 import request from 'supertest';
 
 describe('ContentController (e2e)', () => {
@@ -43,7 +43,7 @@ describe('ContentController (e2e)', () => {
     await videoRepository.deleteAll();
     await movieRepository.deleteAll();
     await contentRepository.deleteAll();
-    nock.cleanAll();
+    cleanAll();
   });
 
   afterAll(async () => {
